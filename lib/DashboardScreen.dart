@@ -88,116 +88,109 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        AppConstants.constantsInstance.showAlertDialogWithButton(context,
-            "Logout", "Do you want to logout?", DialogforEnum.dashboard);
-        return true;
-      },
-      child: Scaffold(
-        body: Builder(
-          builder: (BuildContext context) {
-            return Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                  child: Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: SizedBox(
-                        width: 200,
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                print("back tapped");
-                                setState(() {
-                                  if (selectedMonth > 0) {
-                                    selectedMonth -= 1;
-                                    filterExpenseListByMonth();
-                                  }
-                                });
-                              },
-                              child: const Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.blue,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-                              child: Text(months[selectedMonth]),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (selectedMonth < months.length - 1) {
-                                    selectedMonth += 1;
-                                    filterExpenseListByMonth();
-                                  }
-                                });
-
-                                print("farwared tapped");
-                              },
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: GestureDetector(
-                        onTap: () {
-                          print("Add Data");
-                          showDialogForALlUser(context);
-                        },
-                        child: Container(
-                          width: 120,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.blue[300],
-                              borderRadius: BorderRadius.circular(8)),
-                          child: const Center(
-                            child: Text("Add Expenses"),
-                          ),
-                        ),
-                      ),
-                    )
-                  ]),
-                ),
-                filterredExpenses.expenseModel.isNotEmpty
-                    ? Expanded(
-                        // height: MediaQuery.of(context).size.height -
-                        //     AppBar().preferredSize.height -
-                        //     MediaQuery.of(context).padding.top -
-                        //     MediaQuery.of(context).padding.bottom -
-                        //     152,
-                        child: ListView.builder(
-                            padding: const EdgeInsets.all(8),
-                            itemCount: filterredExpenses.expenseModel.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return expenseListWidget(index);
-                            }),
-                      )
-                    : const Column(
+    return Scaffold(
+      body: Builder(
+        builder: (BuildContext context) {
+          return Column(
+            children: [
+              SizedBox(
+                height: 50,
+                child: Row(children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    child: SizedBox(
+                      width: 200,
+                      child: Row(
                         children: [
-                          SizedBox(
-                            height: 120,
+                          GestureDetector(
+                            onTap: () {
+                              print("back tapped");
+                              setState(() {
+                                if (selectedMonth > 0) {
+                                  selectedMonth -= 1;
+                                  filterExpenseListByMonth();
+                                }
+                              });
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.blue,
+                            ),
                           ),
-                          Text(
-                            "No Data",
-                            style: TextStyle(color: Colors.blueGrey),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                            child: Text(months[selectedMonth]),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (selectedMonth < months.length - 1) {
+                                  selectedMonth += 1;
+                                  filterExpenseListByMonth();
+                                }
+                              });
+
+                              print("farwared tapped");
+                            },
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.blue,
+                            ),
                           ),
                         ],
                       ),
-              ],
-            );
-          },
-        ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        print("Add Data");
+                        showDialogForALlUser(context);
+                      },
+                      child: Container(
+                        width: 120,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.blue[300],
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text("Add Expenses"),
+                        ),
+                      ),
+                    ),
+                  )
+                ]),
+              ),
+              filterredExpenses.expenseModel.isNotEmpty
+                  ? Expanded(
+                      // height: MediaQuery.of(context).size.height -
+                      //     AppBar().preferredSize.height -
+                      //     MediaQuery.of(context).padding.top -
+                      //     MediaQuery.of(context).padding.bottom -
+                      //     152,
+                      child: ListView.builder(
+                          padding: const EdgeInsets.all(8),
+                          itemCount: filterredExpenses.expenseModel.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return expenseListWidget(index);
+                          }),
+                    )
+                  : const Column(
+                      children: [
+                        SizedBox(
+                          height: 120,
+                        ),
+                        Text(
+                          "No Data",
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                      ],
+                    ),
+            ],
+          );
+        },
       ),
     );
   }
