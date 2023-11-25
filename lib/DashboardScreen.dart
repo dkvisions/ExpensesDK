@@ -80,7 +80,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         .then((value) {
       setState(() {
         expenses = value;
-
         filterExpenseListByMonth();
       });
     });
@@ -633,19 +632,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
     }
 
-    for (int i = 0; i < filterd.length; i++) {
-      int dayFromDate = getDayFrom(filterd[i].date);
+    // if (filterd.length > 1) {
+    //   filterd.reversed;
+    // }
 
-      for (int j = 0; j < filterd.length; j++) {
-        int dayFromDateNext = getDayFrom(filterd[j].date);
+    filterd
+        .sort((e1, e2) => getDayFrom(e2.date).compareTo(getDayFrom(e1.date)));
 
-        if (dayFromDate >= dayFromDateNext) {
-          var temp = filterd[i];
-          filterd[i] = filterd[j];
-          filterd[j] = temp;
-        }
-      }
-    }
+    // for (int i = 0; i < filterd.length; i++) {
+    //   int dayFromDate = getDayFrom(filterd[i].date);
+
+    //   for (int j = 0; j < filterd.length; j++) {
+    //     int dayFromDateNext = getDayFrom(filterd[j].date);
+
+    //     //print("dayFromDate $dayFromDate $dayFromDateNext");
+
+    //     if (dayFromDate >= dayFromDateNext) {
+    //       var temp = filterd[i];
+    //       filterd[i] = filterd[j];
+    //       filterd[j] = temp;
+    //     }
+    //   }
+    // }
 
     setState(() {
       filterredExpenses.expenseModel = filterd;
