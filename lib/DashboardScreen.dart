@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:expensemanager/AppConstants.dart';
 import 'package:expensemanager/ExpenseModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,6 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   getExpenses() {
+    print("Maii Yhaa hu");
     SharedPreferencesSaveRetrieve.retrievesUsersDataFromLocalStorage(
             widget.userID)
         .then((value) {
@@ -586,7 +586,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     DateTime now = DateTime.now();
 
     String monthNumber = DateFormat("MM").format(now);
-    print("monthName $monthNumber");
+
     return int.parse(monthNumber) - 1;
   }
 
@@ -594,7 +594,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     DateTime now = DateTime.now();
 
     String year = DateFormat("yyyy").format(now);
-    print("year $year");
+
     return int.parse(year);
   }
 
@@ -602,7 +602,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     DateTime dateNow = DateFormat(dateFormattedString).parse(dateString);
 
     String monthNumber = DateFormat("MM").format(dateNow);
-    print("monthName $monthNumber");
+
     return int.parse(monthNumber);
   }
 
@@ -610,8 +610,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     DateTime dateNow = DateFormat(dateFormattedString).parse(dateString);
 
     String monthNumber = DateFormat("yyyy").format(dateNow);
-    print("monthName $monthNumber");
+
     return int.parse(monthNumber);
+  }
+
+  int getDayFrom(String dateString) {
+    DateTime dateNow = DateFormat(dateFormattedString).parse(dateString);
+
+    String dayNumber = DateFormat("dd").format(dateNow);
+
+    return int.parse(dayNumber);
   }
 
   filterExpenseListByMonth() {
@@ -622,6 +630,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       int year = parseStringToDateAndGetYear(element.date);
       if ((monthNumber == selectedMonth + 1) && year == getYear()) {
         filterd.add(element);
+      }
+    }
+
+    for (int i = 0; i < filterd.length; i++) {
+      int dayFromDate = getDayFrom(filterd[i].date);
+
+      for (int j = 0; j < filterd.length; j++) {
+        int dayFromDateNext = getDayFrom(filterd[j].date);
+
+        if (dayFromDate >= dayFromDateNext) {
+          var temp = filterd[i];
+          filterd[i] = filterd[j];
+          filterd[j] = temp;
+        }
       }
     }
 
